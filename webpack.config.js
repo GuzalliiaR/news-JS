@@ -5,10 +5,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const DotenvWebpackPlugin = require('dotenv-webpack');
 
 const baseConfig = {
-    entry: path.resolve(__dirname, './src/index.js'),
+    // убираем жесткое указание .js, чтобы Webpack сам нашел index.js или index.ts
+    entry: path.resolve(__dirname, './src/index'),
     mode: 'development',
     module: {
         rules: [
+            {
+                // Применять правило к файлам .ts и .tsx
+                // Использовать ts-loader
+                // Не обрабатывать папку node_modules
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
@@ -16,7 +25,8 @@ const baseConfig = {
         ],
     },
     resolve: {
-        extensions: ['.js'],
+        // чтобы Webpack понимал импорты без указания расширения
+        extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
         filename: 'index.js',
