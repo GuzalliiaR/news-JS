@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const DotenvWebpackPlugin = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const baseConfig = {
     // убираем жесткое указание .js, чтобы Webpack сам нашел index.js или index.ts
@@ -39,6 +40,10 @@ const baseConfig = {
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            // Откуда и куда комирывать изображения при сборке
+            patterns: [{ from: 'src/img', to: 'img' }],
+        }),
     ],
 };
 
