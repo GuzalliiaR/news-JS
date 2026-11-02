@@ -1,6 +1,9 @@
 {
-    "plugins": ["prettier", "import"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["prettier", "import", "@typescript-eslint"],
     "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
         "prettier"
     ],
@@ -17,5 +20,18 @@
         "no-debugger": "off",
         "no-console": 0,
         "class-methods-use-this": "off"
-    }
+    },
+
+    // Не применять правила для TS к конфигурационным файлам Webpack, это файлы для Node.js
+    "overrides": [
+        {
+            "files": ["webpack.config.js", "webpack.*.config.js"],
+            "env": {
+                "node": true
+            },
+            "rules": {
+                "@typescript-eslint/no-require-imports": "off"
+            }
+        }
+    ]
 }
